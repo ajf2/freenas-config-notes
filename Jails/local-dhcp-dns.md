@@ -70,5 +70,11 @@ dnsmasq_conf="/usr/local/etc/dnsmasq.conf"
 ```
 Press escape, select leave editor and save changes.
 
+### 2.3) Test dnsmasq configuration.
+Running dnsmasq will tell you if there are any errors in your configuration file. Try it out with
+```
+dnsmasq
+```
+
 ## 3) Restart
-Close the shell console and restart the jail through the FreeNAS UI to make sure it auto-starts.
+Once the configuration is finished, close the shell console and restart the jail through the FreeNAS UI to make sure it auto-starts.
