@@ -1,12 +1,28 @@
 # Setting Up dnsmasq as a Local DHCP and DNS Server
 _Using FreeNAS 11.2 U3_
 
-These notes assume the use of iocage jails, new in FreeNAS 11.2, not the deprecated warden jails.<br>
+These notes assume the use of iocage jails, new in FreeNAS 11.2, not the deprecated warden jails.
+
 Adapted from a blog post by "Tim": http://www.wordpress.lonbil.co.uk/2013/08/installing-dnsmasq-on-freenas-9-1/
 
 ## 1) Create a new jail to install dnsmasq into.
-**IMPORTANT: Make sure to give the jail an IP address outside of the router's DHCP range.**<br>
-Use the FreeNAS UI to create a new jail, giving it a name, an IP address, set it to auto-start and set it a high priority under Custom Properties (the lower the number, the higher the boot priority).
+**IMPORTANT: There is a bug in FreeNAS 11.2 U3 which causes jail creation to fail using the Advanced Jail Creation button. To work around it, use basic jail creation to create the jail initially, then edit the jail and change the rest of the options. See https://redmine.ixsystems.com/issues/70993 for more.**
+
+Use the FreeNAS UI to create a new jail, using the Advanced Jail Creation button and setting the following properties:
+#### Basic Properties
+- Name
+- Release
+- VNET
+- DHCP Autoconfigure IPv4
+- Auto-Start
+
+Or if not using DHCP:
+- IPv4 Interface (The network device to use, e.g. bge0)
+- IPv4 Address (The jail's static IP address)
+- IPv4 Netmask (e.g. 24, which is equivalent to 255.255.255.0)
+- IPv4 Default Router (The router's static IP address)
+#### Custom Properties
+- Priority (Lower numbers are higher boot priority)
 
 ## 2) Open the jail's shell console and set up dnsmasq.
 Open the console through the FreeNAS UI. The FreeBSD package manager, pkg, isn't installed when creating a new jail but it will prompt you to install it when you first attempt to use it. It may take a few minutes to finish setting up.
@@ -29,12 +45,18 @@ server=/8.8.8.8
 server=/8.8.4.4
 ```
 
-#### 2.1.3) Set the DHCP range.
-Set the DHCP range on line 158. Make sure to also change your router's DHCP range if necessary so there's no conflict here.
+#### 2.1.3) Add DHCP or static IP addresses for hosts.
+If using dnsmasq for a DHCP server, set the DHCP range on line 158.
 ```
 dhcp-range=192.168.1.210,192.168.1.229,12h
 ```
 Now press escape, select leave editor and save.
+
+If you're sticking with your router's DHCP server, set DHCP reservations for your devices in the router's configuration and add the appropriate entries to the hosts file:
+```
+edit /etc/hosts
+```
+When you're done, press escape and select leave editor and save changes.
 
 ### 2.2) Set dnsmasq to auto-start.
 ```
@@ -42,7 +64,7 @@ edit /etc/rc.conf
 ```
 At the end of the file, add the following (comment included for good practice):
 ```
-# Auto-start dnsmasq
+# Use dnsmasq
 dnsmasq_enable="YES"
 dnsmasq_conf="/usr/local/etc/dnsmasq.conf"
 ```
