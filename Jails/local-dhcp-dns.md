@@ -38,14 +38,7 @@ edit /usr/local/etc/dnsmasq.conf
 #### 2.1.1) Be a "good netizen".
 Uncomment lines 19 and 21 to enable the `domain-needed` and `bogus-priv` options. The comment above these lines make it sound like a good idea, though I've not gone into depth as to why exactly.
 
-#### 2.1.2) Add GoogleDNS (or other DNS providers) to the jail's upstream nameservers.
-Change line 66 to, and add line 67:
-```
-server=/8.8.8.8
-server=/8.8.4.4
-```
-
-#### 2.1.3) Add DHCP or static IP addresses for hosts.
+#### 2.1.2) Add DHCP or static IP addresses for hosts.
 If using dnsmasq for a DHCP server, set the DHCP range on line 158.
 ```
 dhcp-range=192.168.1.210,192.168.1.229,12h
