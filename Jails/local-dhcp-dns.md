@@ -51,7 +51,20 @@ edit /etc/hosts
 ```
 When you're done, press escape and select leave editor and save changes.
 
-### 2.2) Set dnsmasq to auto-start.
+### 2.2) Add alternative nameservers
+You may want to add Google DNS, OpenDNS or another provider.
+```
+edit /etc/resolv.conf
+```
+
+Now to use Google DNS, add the following lines after the line referencing the jail's own IP address
+```
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+```
+When done, press escape, select leave editor and save changes.
+
+### 2.3) Set dnsmasq to auto-start.
 ```
 edit /etc/rc.conf
 ```
@@ -63,7 +76,7 @@ dnsmasq_conf="/usr/local/etc/dnsmasq.conf"
 ```
 Press escape, select leave editor and save changes.
 
-### 2.3) Test dnsmasq configuration.
+### 2.4) Test dnsmasq configuration.
 Running dnsmasq will tell you if there are any errors in your configuration file. Try it out with
 ```
 dnsmasq
