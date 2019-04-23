@@ -28,7 +28,7 @@ In the old Plex server UI, go to `Settings -> Library` and disable `Empty trash 
 #### 3.2) Start the new plugin, but stop the services.
 Using the FreeNAS UI, start up the new plugin, then go to the Jails page and open a shell window to the plugin's jail. Run the following to stop Plex from running (use `service -e` to list the running services).
 ```
-service plexmediaserver_plexpass stop
+service plexmediaserver_plexpass onestop
 ```
 
 The old Plex plugin jail can be stopped through the FreeNAS legacy UI.
@@ -73,6 +73,8 @@ Wait for the library scans to finish.
 
 #### 4.4) Final maintenance.
 Still in the new Plex server's UI, go to `Settings -> Library` and turn on `Empty trash automatically after every scan` again.
+
+For each library, open its overflow menu and choose `Empty Trash`.
 
 Now go to `Manage -> Troubleshooting` and click `Clean Bundles`.
 
