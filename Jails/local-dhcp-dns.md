@@ -38,7 +38,10 @@ edit /usr/local/etc/dnsmasq.conf
 #### 2.1.1) Be a "good netizen".
 Uncomment lines 19 and 21 to enable the `domain-needed` and `bogus-priv` options. The comment above these lines make it sound like a good idea, though I've not gone into depth as to why exactly.
 
-#### 2.1.2) Add DHCP or static IP addresses for hosts.
+#### 2.1.2) Enable WPAD security fixes.
+A security vulnerability detailed at https://www.kb.cert.org/vuls/id/598349/ can be solved by enabling two options at the end of the dnsmasq conf file. Uncomment the `dhcp-name-match=set:wpad-ignore,wpad` and `dhcp-ignore-names=tag:wpad-ignore` lines enable the fixes.
+
+#### 2.1.3) Add DHCP or static IP addresses for hosts.
 If using dnsmasq for a DHCP server, set the DHCP range on line 158.
 ```
 dhcp-range=192.168.1.210,192.168.1.229,12h
