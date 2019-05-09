@@ -8,4 +8,7 @@ The `locate` command is used to find occurrences of a string in the filesystem. 
 ```
 locate <thing-to-find>
 ```
-On first run, it may throw an error telling you to first build an index by running another command.
+On first run, it may throw an error telling you that its database is too small and to first update it by running another command:
+```
+/usr/lobexec/locate.updatedb
+```
